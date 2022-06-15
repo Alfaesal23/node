@@ -36,7 +36,7 @@
 
     # Reset this number to 0 on major V8 upgrades.
     # Increment by one for each non-official patch applied to deps/v8.
-    'v8_embedder_string': '-node.13',
+    'v8_embedder_string': '-node.8',
 
     ##### V8 defaults for Node.js #####
 
@@ -103,7 +103,7 @@
         'v8_base': '<(PRODUCT_DIR)/libv8_snapshot.a',
       }],
       # V8 pointer compression only supports 64bit architectures.
-      ['target_arch in "arm ia32 mips mipsel ppc x32"', {
+      ['target_arch in "arm ia32 mips mipsel ppc"', {
         'v8_enable_pointer_compression': 0,
         'v8_enable_31bit_smis_on_64bit_arch': 0,
       }],
@@ -280,7 +280,11 @@
           '-std:c++17'
         ],
         'BufferSecurityCheck': 'true',
-        'DebugInformationFormat': 1,          # /Z7 embed info in .obj files
+        'target_conditions': [
+          ['_toolset=="target"', {
+            'DebugInformationFormat': 1      # /Z7 embed info in .obj files
+          }],
+        ],
         'ExceptionHandling': 0,               # /EHsc
         'MultiProcessorCompilation': 'true',
         'StringPooling': 'true',              # pool string literals
@@ -414,10 +418,6 @@
             'cflags': [ '-m32' ],
             'ldflags': [ '-m32' ],
           }],
-          [ 'target_arch=="x32"', {
-            'cflags': [ '-mx32' ],
-            'ldflags': [ '-mx32' ],
-          }],
           [ 'target_arch=="x64"', {
             'cflags': [ '-m64' ],
             'ldflags': [ '-m64' ],
@@ -501,7 +501,7 @@
           'GCC_ENABLE_CPP_RTTI': 'NO',              # -fno-rtti
           'GCC_ENABLE_PASCAL_STRINGS': 'NO',        # No -mpascal-strings
           'PREBINDING': 'NO',                       # No -Wl,-prebind
-          'MACOSX_DEPLOYMENT_TARGET': '10.13',      # -mmacosx-version-min=10.13
+          'MACOSX_DEPLOYMENT_TARGET': '10.15',      # -mmacosx-version-min=10.15
           'USE_HEADERMAP': 'NO',
           'OTHER_CFLAGS': [
             '-fno-strict-aliasing',
@@ -619,7 +619,7 @@
           '-q64',
         ],
         # for addons due to v8config.h include of "zos-base.h":
-        'include_dirs':  ['$(ZOSLIB_INCLUDES)'],
+        'include_dirs':  ['<(zoslib_include_dir)'],
       }],
     ],
   }

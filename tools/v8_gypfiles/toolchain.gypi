@@ -959,21 +959,6 @@
         },
         'msvs_configuration_platform': 'x64',
       }],  # v8_target_arch=="x64"
-      ['v8_target_arch=="x32"', {
-        'defines': [
-          # x32 port shares the source code with x64 port.
-          'V8_TARGET_ARCH_X64',
-          'V8_TARGET_ARCH_32_BIT',
-        ],
-        'cflags': [
-          '-mx32',
-          # Inhibit warning if long long type is used.
-          '-Wno-long-long',
-        ],
-        'ldflags': [
-          '-mx32',
-        ],
-      }],  # v8_target_arch=="x32"
       ['OS=="win"', {
         'defines': [
           'WIN32',
@@ -1023,7 +1008,7 @@
       ['OS=="mac"', {
         'defines': [
           'V8_HAVE_TARGET_OS',
-          'V8_TARGET_OS_MACOSX',
+          'V8_TARGET_OS_MACOS',
         ]
       }],
       ['OS=="win"', {
